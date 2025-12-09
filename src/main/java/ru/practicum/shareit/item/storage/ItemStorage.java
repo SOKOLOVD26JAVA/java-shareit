@@ -56,10 +56,9 @@ public class ItemStorage {
 
     public List<Item> searchItem(Integer userId, String text) {
         List<Item> findItems = new ArrayList<>(items.values());
-        return findItems.stream().filter(item -> item.getAvailable() == true).
-                filter(item -> item.getName().toLowerCase().
-                        contains(text.toLowerCase()) || item.getDescription().toLowerCase().
-                        contains(text.toLowerCase())).collect(Collectors.toList());
+        return findItems.stream().filter(item -> item.getAvailable() == true)
+                .filter(item -> item.getName().toLowerCase().contains(text.toLowerCase()) || item.getDescription()
+                        .toLowerCase().contains(text.toLowerCase())).collect(Collectors.toList());
     }
 
 

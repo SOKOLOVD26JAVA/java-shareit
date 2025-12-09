@@ -44,7 +44,7 @@ public class UserService {
     }
 
     public List<ItemForUserDto> getUserItemList(int userId) {
-        return userStorage.getUserItemList(userId).stream().
-                map(ItemForUserMapper::mapToItemForUserDto).collect(Collectors.toList());
+        return userStorage.getUserItemList(userId).stream()
+                .map(ItemForUserMapper::mapToItemForUserDto).collect(Collectors.toList());
     }
 }

@@ -39,7 +39,8 @@ public class ItemService {
         if (text.equals("missing")) {
             return new ArrayList<>();
         }
-        return itemStorage.searchItem(userId, text).stream().map(ItemForUserMapper::mapToItemForUserDto).collect(Collectors.toList());
+        return itemStorage.searchItem(userId, text).stream()
+                .map(ItemForUserMapper::mapToItemForUserDto).collect(Collectors.toList());
     }
 
     private void headerCheck(Integer userId) {
