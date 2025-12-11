@@ -9,7 +9,7 @@ import ru.practicum.shareit.item.mapper.ItemMapper;
 import ru.practicum.shareit.item.storage.ItemStorage;
 import ru.practicum.shareit.user.service.UserService;
 
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
