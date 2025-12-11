@@ -10,7 +10,7 @@ import lombok.Data;
  */
 @Data
 public class ItemDto {
-    int id;
+    private int id;
     @NotBlank(message = "Название не может быть пустым.")
     private String name;
     @NotBlank(message = "Описание не может быть пустым.")

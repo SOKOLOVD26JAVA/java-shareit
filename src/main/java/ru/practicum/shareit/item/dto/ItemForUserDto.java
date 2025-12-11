@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class ItemForUserDto {
-    String name;
-    String description;
+    private String name;
+    private String description;
 }

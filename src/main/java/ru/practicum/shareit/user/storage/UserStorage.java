@@ -2,7 +2,7 @@ package ru.practicum.shareit.user.storage;
 
 import org.springframework.stereotype.Component;
 import ru.practicum.shareit.exception.NotFoundException;
-import ru.practicum.shareit.exception.ValidationEmailException;
+import ru.practicum.shareit.exception.ValidationException;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.model.User;
 
@@ -72,7 +72,7 @@ public class UserStorage {
     private void emailCheck(User user) {
         for (User user1 : users.values()) {
             if (user1.getEmail().equalsIgnoreCase(user.getEmail())) {
-                throw new ValidationEmailException("Пользователь с Email: " + user.getEmail() + " уже зарегистрирован.");
+                throw new ValidationException("Пользователь с Email: " + user.getEmail() + " уже зарегистрирован.");
             }
         }
     }

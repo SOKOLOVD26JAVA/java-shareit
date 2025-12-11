@@ -3,11 +3,13 @@ package ru.practicum.shareit.item;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.shareit.Headers;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemForUserDto;
 import ru.practicum.shareit.item.service.ItemService;
 import ru.practicum.shareit.user.service.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,17 +25,15 @@ public class ItemController {
 
 
     @PostMapping()
-    public ItemDto createItem(@RequestHeader(value = "X-Sharer-User-Id", required = false) Integer userId,
+    public ItemDto createItem(@RequestHeader(value = Headers.SHARER_USER_ID, required = true) Integer userId,
                               @Valid @RequestBody ItemDto itemDto) {
-        ItemDto returnableItem = itemService.createItem(userId, itemDto);
-        userService.addItemToUser(userId, returnableItem);
-        return returnableItem;
+
+        return itemService.createItem(userId, itemDto);
     }
 
     @PatchMapping("/{itemId}")
-    public ItemDto updateItem(@RequestHeader(value = "X-Sharer-User-Id", required = false) Integer userId,
+    public ItemDto updateItem(@RequestHeader(value = Headers.SHARER_USER_ID, required = true) Integer userId,
                               @PathVariable int itemId, @RequestBody ItemDto itemDto) {
-        userService.getUserByID(userId);
         return itemService.updateItem(userId, itemId, itemDto);
     }
 
@@ -43,13 +43,16 @@ public class ItemController {
     }
 
     @GetMapping
-    public List<ItemForUserDto> getUserItemList(@RequestHeader(value = "X-Sharer-User-Id", required = false) int userId) {
+    public List<ItemForUserDto> getUserItemList(@RequestHeader(value = Headers.SHARER_USER_ID, required = true) int userId) {
         return userService.getUserItemList(userId);
     }
 
     @GetMapping("/search")
-    public List<ItemForUserDto> searchItem(@RequestHeader(value = "X-Sharer-User-Id", required = false) Integer userId,
-                                           @RequestParam(defaultValue = "missing") String text) {
+    public List<ItemForUserDto> searchItem(@RequestHeader(value = Headers.SHARER_USER_ID, required = true) Integer userId,
+                                           @RequestParam(required = false) String text) {
+        if (text == null || text.isBlank()) {
+            return new ArrayList<>();
+        }
         return itemService.searchItem(userId, text);
     }
 

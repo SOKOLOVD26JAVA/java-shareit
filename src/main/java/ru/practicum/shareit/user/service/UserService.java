@@ -2,10 +2,8 @@ package ru.practicum.shareit.user.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.practicum.shareit.exception.MissingHeaderException;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemForUserDto;
-import ru.practicum.shareit.item.mapper.ItemForUserMapper;
 import ru.practicum.shareit.item.mapper.ItemMapper;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.mapper.UserMapper;
@@ -21,9 +19,6 @@ public class UserService {
     private final UserStorage userStorage;
 
     public UserDto getUserByID(Integer userId) {
-        if (userId == null) {
-            throw new MissingHeaderException("Отсутствует обязательный заголовок X-Sharer-User-Id.");
-        }
         return UserMapper.mapUserDto(userStorage.getUserByID(userId));
     }
 
@@ -45,6 +40,6 @@ public class UserService {
 
     public List<ItemForUserDto> getUserItemList(int userId) {
         return userStorage.getUserItemList(userId).stream()
-                .map(ItemForUserMapper::mapToItemForUserDto).collect(Collectors.toList());
+                .map(ItemMapper::mapToItemForUserDto).collect(Collectors.toList());
     }
 }
