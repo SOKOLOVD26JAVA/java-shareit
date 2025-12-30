@@ -58,7 +58,7 @@ public class BookingService {
                 .orElseThrow(() -> new BookingValidationException("Пользователь не найден."));
         Booking booking = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new BookingValidationException("Бронирование не найдено."));
-        if (booking.getItem().getOwner().getId() != user.getId()) {
+        if (!booking.getItem().getOwner().getId().equals(user.getId())) {
             throw new BookingValidationException("Ошибка валидации пользователя.");
         }
         if (approved == true) {
@@ -77,7 +77,7 @@ public class BookingService {
                 .orElseThrow(() -> new BookingValidationException("Бронирование не найдено."));
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new BookingValidationException("Пользователь не найден."));
-        if (booking.getBooker().getId() != userId || booking.getItem().getOwner().getId() != userId) {
+        if (!booking.getBooker().getId().equals(userId) || booking.getItem().getOwner().getId().equals(userId)) {
             return BookingMapper.mapToBookingResponseDto(booking);
         } else {
             throw new ValidationException("Ошибка валидации пользователя.");

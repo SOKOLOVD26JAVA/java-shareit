@@ -113,7 +113,7 @@ public class ItemService {
     }
 
     private void userValidation(User user, Item item) {
-        if (item.getOwner().getId() != user.getId()) {
+        if (!item.getOwner().getId().equals(user.getId())) {
             throw new ValidationException("Ошибка валидации пользователя.");
         } else {
             return;
