@@ -4,13 +4,18 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import ru.practicum.shareit.item.model.Comment;
+import ru.practicum.shareit.user.dto.UserDto;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * TODO Sprint add-controllers.
  */
 @Data
 public class ItemDto {
-    private int id;
+    private Long id;
     @NotBlank(message = "Название не может быть пустым.")
     private String name;
     @NotBlank(message = "Описание не может быть пустым.")
@@ -18,4 +23,9 @@ public class ItemDto {
     private String description;
     @NotNull(message = "available не может быть пустым.")
     private Boolean available;
+    UserDto owner;
+    LocalDateTime lastBooking = null;
+    LocalDateTime nextBooking = null;
+    List<CommentResponseDto> comments;
+
 }
