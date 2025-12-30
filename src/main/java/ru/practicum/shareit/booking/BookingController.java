@@ -26,8 +26,8 @@ public class BookingController {
     }
 
     @PatchMapping("/{bookingId}")
-    public BookingResponseDto bookingApprove(@RequestHeader(value = Headers.SHARER_USER_ID, required = true) Long userID
-            , @PathVariable Long bookingId, @RequestParam(required = true) Boolean approved) {
+    public BookingResponseDto bookingApprove(@RequestHeader(value = Headers.SHARER_USER_ID, required = true) Long userID,
+                                             @PathVariable Long bookingId, @RequestParam(required = true) Boolean approved) {
         return bookingService.bookingApprove(userID, bookingId, approved);
     }
 
@@ -38,14 +38,14 @@ public class BookingController {
     }
 
     @GetMapping
-    public List<BookingResponseDto> getBookingByIdAndStatus(@RequestHeader(value = Headers.SHARER_USER_ID) Long userId
-            , @RequestParam(defaultValue = "ALL") String state) {
+    public List<BookingResponseDto> getBookingByIdAndStatus(@RequestHeader(value = Headers.SHARER_USER_ID) Long userId,
+                                                            @RequestParam(defaultValue = "ALL") String state) {
         return bookingService.getBookingByIdAndStatus(userId, state);
     }
 
     @GetMapping("/owner")
-    public List<BookingResponseDto> getBookingByOwnerAndStatus(@RequestHeader(value = Headers.SHARER_USER_ID) Long userId
-            , @RequestParam(defaultValue = "ALL") String state) {
+    public List<BookingResponseDto> getBookingByOwnerAndStatus(@RequestHeader(value = Headers.SHARER_USER_ID) Long userId,
+                                                               @RequestParam(defaultValue = "ALL") String state) {
         return bookingService.getBookingByOwnerAndStatus(userId, state);
     }
 }
