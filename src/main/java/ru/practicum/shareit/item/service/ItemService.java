@@ -23,6 +23,7 @@ import ru.practicum.shareit.user.repository.UserRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Transactional(readOnly = true)
@@ -113,7 +114,7 @@ public class ItemService {
     }
 
     private void userValidation(User user, Item item) {
-        if (!item.getOwner().getId().equals(user.getId())) {
+        if (!Objects.equals(item.getOwner().getId(), user.getId())) {
             throw new ValidationException("Ошибка валидации пользователя.");
         } else {
             return;

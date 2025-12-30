@@ -19,6 +19,7 @@ import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repository.UserRepository;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Transactional(readOnly = true)
@@ -58,7 +59,7 @@ public class BookingService {
                 .orElseThrow(() -> new BookingValidationException("Пользователь не найден."));
         Booking booking = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new BookingValidationException("Бронирование не найдено."));
-        if (!booking.getItem().getOwner().getId().equals(user.getId())) {
+        if (!Objects.equals(booking.getItem().getOwner().getId(), user.getId())) {
             throw new BookingValidationException("Ошибка валидации пользователя.");
         }
         if (approved == true) {
@@ -77,7 +78,7 @@ public class BookingService {
                 .orElseThrow(() -> new BookingValidationException("Бронирование не найдено."));
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new BookingValidationException("Пользователь не найден."));
-        if (!booking.getBooker().getId().equals(userId) || booking.getItem().getOwner().getId().equals(userId)) {
+        if (!Objects.equals(booking.getBooker().getId(), userId) || !Objects.equals(booking.getItem().getOwner().getId(), userId)) {
             return BookingMapper.mapToBookingResponseDto(booking);
         } else {
             throw new ValidationException("Ошибка валидации пользователя.");
