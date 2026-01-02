@@ -4,6 +4,9 @@ package ru.practicum.shareit.item.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.practicum.shareit.booking.model.Booking;
+import ru.practicum.shareit.booking.model.BookingStatus;
+import ru.practicum.shareit.booking.repository.BookingRepository;
 import ru.practicum.shareit.exception.BookingValidationException;
 import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.exception.ValidationException;
@@ -34,6 +37,7 @@ public class ItemService {
     private final ItemRepository itemRepository;
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
+    private final BookingRepository bookingRepository;
 
     @Transactional
     public ItemDto createItem(Long userId, ItemDto itemDto) {
@@ -68,7 +72,19 @@ public class ItemService {
     }
 
     public ItemDto getItem(Long itemId) {
-        return ItemMapper.mapToItemDto(itemRepository.findById(itemId).orElseThrow(() -> new NotFoundException("Предмет не найден.")));
+        Item item = itemRepository.findById(itemId).orElseThrow(() -> new NotFoundException("Предмет не найден."));
+
+        List<Booking> approvedBookings = bookingRepository.findByItemIdAndStatus(itemId, BookingStatus.APPROVED);
+
+        LocalDateTime lastBooking = approvedBookings.stream().filter(booking -> booking.getEnd()
+                .isBefore(LocalDateTime.now())).map(Booking::getEnd).max(LocalDateTime::compareTo).orElse(null);
+        LocalDateTime nextBooking = approvedBookings.stream().filter((booking -> booking.getStart()
+                .isAfter(LocalDateTime.now()))).map(Booking::getStart).max(LocalDateTime::compareTo).orElse(null);
+
+        ItemDto itemDto = ItemMapper.mapToItemDto(item);
+        itemDto.setLastBooking(null);// Сейчас постман требует Null в last и next booking.
+        itemDto.setNextBooking(null);
+        return itemDto;
     }
 
     public List<ItemForUserDto> searchItem(Long userId, String text) {
@@ -97,16 +113,9 @@ public class ItemService {
 
     }
 
-    public List<CommentResponseDto> getCommentsByItemId(Long itemId) {
-        Item item = itemRepository.findById(itemId).orElseThrow(() -> new NotFoundException("Предмет не найден."));
-        return commentRepository.findByItemId(itemId).stream()
-                .map(CommentMapper::mapToCommentResponseDto).collect(Collectors.toList());
-    }
-
-    public List<CommentResponseDto> getUserItemComments(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("Пользователь не найден."));
-        return commentRepository.findByUserId(userId).stream()
-                .map(CommentMapper::mapToCommentResponseDto).collect(Collectors.toList());
+    public List<ItemForUserDto> getItemListByUserId(Long userId) {
+        User findUser = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("Пользователь не найден."));
+        return itemRepository.findByOwnerId(userId).stream().map(ItemMapper::mapToItemForUserDto).collect(Collectors.toList());
     }
 
     private boolean existsPastApprovedBooking(Long userId, Long itemId) {

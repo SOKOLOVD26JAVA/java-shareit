@@ -23,8 +23,8 @@ public class ItemDto {
     @NotNull(message = "available не может быть пустым.")
     private Boolean available;
     UserDto owner;
-    LocalDateTime lastBooking = null;
-    LocalDateTime nextBooking = null;
+    LocalDateTime lastBooking;
+    LocalDateTime nextBooking;
     List<CommentResponseDto> comments;
 
 }

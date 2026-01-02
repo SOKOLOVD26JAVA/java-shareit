@@ -39,8 +39,8 @@ public class BookingService {
         User booker = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("Пользователь не найден."));
 
-        checkAvail(itemForBooking);
-        checkStartEqEnd(bookingRequestDto);
+        checkAvailable(itemForBooking);
+        checkStartEqualEnd(bookingRequestDto);
         Booking booking = new Booking();
 
         booking.setItem(itemForBooking);
@@ -159,7 +159,7 @@ public class BookingService {
                 .map(BookingMapper::mapToBookingResponseDto).collect(Collectors.toList());
     }
 
-    private void checkAvail(Item item) {
+    private void checkAvailable(Item item) {
         if (item.getAvailable() == false) {
             throw new BookingValidationException("Предмет не доступен для бронирования.");
         } else {
@@ -167,7 +167,7 @@ public class BookingService {
         }
     }
 
-    private void checkStartEqEnd(BookingRequestDto booking) {
+    private void checkStartEqualEnd(BookingRequestDto booking) {
         if (booking.getStart().equals(booking.getEnd())) {
             throw new BookingValidationException("Время начала бронирования не должно совпадать с временем окончания");
         } else {

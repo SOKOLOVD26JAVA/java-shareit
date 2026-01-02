@@ -98,7 +98,7 @@
 				<artifactId>flyway-maven-plugin</artifactId>
 				<version>10.15.0</version>
 				<configuration>
-					<url>jdbc:postgresql://localhost:5432/later</url>
+					<url>jdbc:postgresql://localhost:5432/share-it</url>
 					<user>dbuser</user>
 					<password>12345</password>
 					<driver>org.postgresql.Driver</driver>

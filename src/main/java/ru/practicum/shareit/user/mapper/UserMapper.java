@@ -3,7 +3,6 @@ package ru.practicum.shareit.user.mapper;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.dto.UserDto;
 
-import java.util.ArrayList;
 
 public class UserMapper {
 
@@ -23,7 +22,6 @@ public class UserMapper {
 
         user.setName(userDto.getName());
         user.setEmail(userDto.getEmail());
-        user.setItemList(new ArrayList<>());
 
         return user;
     }

@@ -45,7 +45,7 @@ public class ItemController {
 
     @GetMapping
     public List<ItemForUserDto> getUserItemList(@RequestHeader(value = Headers.SHARER_USER_ID, required = true) Long userId) {
-        return userService.getUserItemList(userId);
+        return itemService.getItemListByUserId(userId);
     }
 
     @GetMapping("/search")
@@ -62,16 +62,4 @@ public class ItemController {
                                             @PathVariable Long itemId, @RequestBody CommentRequestDto commentRequestDto) {
         return itemService.createComment(userId, itemId, commentRequestDto);
     }
-// 2 этих метода по ТЗ должны быть, однако они конфликтуют с методами из предыдущего спринта. Не пойму что с ними делать.
-//    @GetMapping("/{itemId}")
-//    public List<CommentResponseDto> getCommentsByItemId(@PathVariable Long itemId) {
-//        return itemService.getCommentsByItemId(itemId);
-//    }
-//
-//    @GetMapping
-//    public List<CommentResponseDto> getUserItemComments(@RequestHeader(value = Headers.SHARER_USER_ID, required = true) Long userId) {
-//        return  itemService.getUserItemComments(userId);
-//    }
-
-
 }

@@ -4,16 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.exception.NotFoundException;
-import ru.practicum.shareit.item.dto.ItemForUserDto;
-import ru.practicum.shareit.item.mapper.ItemMapper;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.mapper.UserMapper;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repository.UserRepository;
 
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -49,12 +44,5 @@ public class UserService {
     public void deleteUserByID(Long userId) {
         User findUser = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("Пользователь не найден."));
         userRepository.deleteById(userId);
-    }
-
-    public List<ItemForUserDto> getUserItemList(Long userId) {
-        User findUser = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("Пользователь не найден."));
-
-        return findUser.getItemList().stream().map(ItemMapper::mapToItemForUserDto).collect(Collectors.toList());
-
     }
 }

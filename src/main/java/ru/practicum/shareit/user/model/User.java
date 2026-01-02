@@ -1,33 +1,32 @@
 package ru.practicum.shareit.user.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import ru.practicum.shareit.booking.model.Booking;
-import ru.practicum.shareit.item.model.Comment;
-import ru.practicum.shareit.item.model.Item;
+import lombok.*;
 
-import java.util.List;
 
 /**
  * TODO Sprint add-controllers.
  */
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
+    @ToString.Include
     private Long id;
 
+    @ToString.Include
+    @EqualsAndHashCode.Exclude
     private String name;
+
+    @ToString.Include
+    @EqualsAndHashCode.Exclude
     private String email;
-
-    @OneToMany(mappedBy = "owner")
-    private List<Item> itemList;
-
-    @OneToMany(mappedBy = "booker")
-    private List<Booking> bookings;
-
-    @OneToMany(mappedBy = "author")
-    private List<Comment> comments;
 }

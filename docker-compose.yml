@@ -1,11 +1,11 @@
 services:
   postgres:
     image: postgres:15-alpine
-    container_name: later-pg
+    container_name: share-it
     environment:
       POSTGRES_USER: dbuser
       POSTGRES_PASSWORD: 12345
-      POSTGRES_DB: later
+      POSTGRES_DB: share-it
     ports:
       - "5432:5432"
     volumes:
