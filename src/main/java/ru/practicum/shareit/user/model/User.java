@@ -1,17 +1,32 @@
 package ru.practicum.shareit.user.model;
 
-import lombok.Data;
-import ru.practicum.shareit.item.model.Item;
+import jakarta.persistence.*;
+import lombok.*;
 
-import java.util.List;
 
 /**
  * TODO Sprint add-controllers.
  */
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(onlyExplicitlyIncluded = true)
+@Entity
+@Table(name = "users")
 public class User {
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
+    @ToString.Include
+    private Long id;
+
+    @ToString.Include
+    @EqualsAndHashCode.Exclude
     private String name;
+
+    @ToString.Include
+    @EqualsAndHashCode.Exclude
     private String email;
-    private List<Item> itemList;
 }

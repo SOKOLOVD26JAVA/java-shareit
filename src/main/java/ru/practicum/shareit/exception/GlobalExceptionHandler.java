@@ -13,13 +13,13 @@ import org.springframework.web.context.request.WebRequest;
 @Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
-    @org.springframework.web.bind.annotation.ExceptionHandler(ru.practicum.shareit.exception.ValidationException.class)
+    @ExceptionHandler(ru.practicum.shareit.exception.ValidationException.class)
     public ResponseEntity<ErrorResponse> validationHandler(ValidationException e, WebRequest request) {
         ErrorResponse error = new ErrorResponse(HttpStatus.CONFLICT.value(), e.getMessage(), request.getDescription(false));
         return new ResponseEntity<>(error, HttpStatus.CONFLICT);
     }
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(MethodArgumentNotValidException.class)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> annotationHandler(MethodArgumentNotValidException e, WebRequest request) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < e.getBindingResult().getErrorCount(); i++) {
@@ -31,7 +31,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(NotFoundException.class)
+    @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ErrorResponse> notFoundHandler(NotFoundException e, WebRequest request) {
         ErrorResponse error = new ErrorResponse(HttpStatus.NOT_FOUND.value(), e.getMessage(), request.getDescription(false));
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
@@ -42,5 +42,12 @@ public class GlobalExceptionHandler {
         ErrorResponse error = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "Пропущен обязательный заголовок.", request.getDescription(false));
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(ru.practicum.shareit.exception.BookingValidationException.class)
+    public ResponseEntity<ErrorResponse> bookingValidationHandler(BookingValidationException e, WebRequest request) {
+        ErrorResponse error = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
 
 }
