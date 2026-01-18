@@ -73,7 +73,7 @@ public class ItemIntegrationTest {
 
     @Test
     void searchItemTest() {
-        ItemDto savedItem = itemService.createItem(userForTest.getId(), request);
+        itemService.createItem(userForTest.getId(), request);
 
         List<ItemForUserDto> items = itemService.searchItem(userForTest.getId(), "молоток");
         List<ItemForUserDto> emptyItemList = itemService.searchItem(userForTest.getId(), "не молоток");
@@ -84,6 +84,8 @@ public class ItemIntegrationTest {
         assertThat(emptyItemList.size(), equalTo(0));
 
     }
+
+
 
 
 }
