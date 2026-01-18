@@ -9,16 +9,21 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.booking.dto.BookingRequestDto;
 import ru.practicum.shareit.booking.dto.BookingResponseDto;
 import ru.practicum.shareit.booking.model.BookingStatus;
+import ru.practicum.shareit.booking.repository.BookingRepository;
 import ru.practicum.shareit.booking.service.BookingService;
 import ru.practicum.shareit.exception.BookingValidationException;
 import ru.practicum.shareit.exception.ValidationException;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.repository.ItemRepository;
 import ru.practicum.shareit.item.service.ItemService;
+import ru.practicum.shareit.user.dto.UserDto;
+import ru.practicum.shareit.user.mapper.UserMapper;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repository.UserRepository;
+import ru.practicum.shareit.user.service.UserService;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -37,6 +42,10 @@ public class BookingIntegrationTest {
     ItemRepository itemRepository;
     @Autowired
     ItemService itemService;
+    @Autowired
+    BookingRepository bookingRepository;
+    @Autowired
+    UserService userService;
 
     private User userForTest;
     private ItemDto request;
@@ -100,17 +109,392 @@ public class BookingIntegrationTest {
         userRepository.save(user);
 
         BookingResponseDto savedBooking = bookingService.createBooking(userForTest.getId(), bookingRequest);
-        BookingResponseDto dto = bookingService.getBooking(user.getId(),savedBooking.getId());
+        BookingResponseDto dto = bookingService.getBooking(user.getId(), savedBooking.getId());
 
-        assertThat(dto.getEnd(),equalTo(bookingRequest.getEnd()));
-        assertThat(dto.getStart(),equalTo(bookingRequest.getStart()));
-
-
+        assertThat(dto.getEnd(), equalTo(bookingRequest.getEnd()));
+        assertThat(dto.getStart(), equalTo(bookingRequest.getStart()));
 
 
         assertThatThrownBy(() -> bookingService.getBooking(userForTest.getId(), savedBooking.getId())).isInstanceOf(ValidationException.class);
+    }
+
+    @Test
+    void getBookingByIdAndStatusAllTest() {
+        User user = new User();
+        user.setName("anotherUser");
+        user.setEmail("another@email.com");
+        UserDto savedUser = userService.createUser(UserMapper.mapUserDto(user));
+
+        User anyuser = new User();
+        user.setName("anotherUser");
+        user.setEmail("another@email.com");
+        UserDto savedAnyUser = userService.createUser(UserMapper.mapUserDto(anyuser));
+
+        ItemDto request = new ItemDto();
+        request.setName("молоток");
+        request.setDescription("красивый");
+        request.setAvailable(true);
+        ItemDto savedItem = itemService.createItem(savedUser.getId(), request);
+
+        BookingRequestDto bookingRequest = new BookingRequestDto();
+        bookingRequest.setItemId(savedItem.getId());
+        bookingRequest.setStart(LocalDateTime.now());
+        bookingRequest.setEnd(LocalDateTime.now().plusHours(1));
+
+
+        BookingResponseDto savedBooking = bookingService.createBooking(savedAnyUser.getId(), bookingRequest);
+
+        List<BookingResponseDto> dtoList = bookingService.getBookingByIdAndStatus(savedAnyUser.getId(), "ALL");
+
+        assertThat(dtoList.size(), equalTo(1));
+
 
     }
 
+    @Test
+    void getBookingByIdAndStatusCurrentTest() {
+        User user = new User();
+        user.setName("anotherUser");
+        user.setEmail("another@email.com");
+        UserDto savedUser = userService.createUser(UserMapper.mapUserDto(user));
+
+        User anyuser = new User();
+        user.setName("anotherUser");
+        user.setEmail("another@email.com");
+        UserDto savedAnyUser = userService.createUser(UserMapper.mapUserDto(anyuser));
+
+        ItemDto request = new ItemDto();
+        request.setName("молоток");
+        request.setDescription("красивый");
+        request.setAvailable(true);
+        ItemDto savedItem = itemService.createItem(savedUser.getId(), request);
+
+        BookingRequestDto bookingRequest = new BookingRequestDto();
+        bookingRequest.setItemId(savedItem.getId());
+        bookingRequest.setStart(LocalDateTime.now());
+        bookingRequest.setEnd(LocalDateTime.now().plusHours(1));
+
+
+        BookingResponseDto savedBooking = bookingService.createBooking(savedAnyUser.getId(), bookingRequest);
+
+        List<BookingResponseDto> dtoList = bookingService.getBookingByIdAndStatus(savedAnyUser.getId(), "CURRENT");
+
+        assertThat(dtoList.size(), equalTo(0));
+
+
+    }
+
+    @Test
+    void getBookingByIdAndStatusPastTest() {
+        User user = new User();
+        user.setName("anotherUser");
+        user.setEmail("another@email.com");
+        UserDto savedUser = userService.createUser(UserMapper.mapUserDto(user));
+
+        User anyuser = new User();
+        user.setName("anotherUser");
+        user.setEmail("another@email.com");
+        UserDto savedAnyUser = userService.createUser(UserMapper.mapUserDto(anyuser));
+
+        ItemDto request = new ItemDto();
+        request.setName("молоток");
+        request.setDescription("красивый");
+        request.setAvailable(true);
+        ItemDto savedItem = itemService.createItem(savedUser.getId(), request);
+
+        BookingRequestDto bookingRequest = new BookingRequestDto();
+        bookingRequest.setItemId(savedItem.getId());
+        bookingRequest.setStart(LocalDateTime.now());
+        bookingRequest.setEnd(LocalDateTime.now().plusHours(1));
+
+
+        BookingResponseDto savedBooking = bookingService.createBooking(savedAnyUser.getId(), bookingRequest);
+
+        List<BookingResponseDto> dtoList = bookingService.getBookingByIdAndStatus(savedAnyUser.getId(), "PAST");
+
+        assertThat(dtoList.size(), equalTo(0));
+
+    }
+
+    @Test
+    void getBookingByIdAndStatusFutureTest() {
+        User user = new User();
+        user.setName("anotherUser");
+        user.setEmail("another@email.com");
+        UserDto savedUser = userService.createUser(UserMapper.mapUserDto(user));
+
+        User anyuser = new User();
+        user.setName("anotherUser");
+        user.setEmail("another@email.com");
+        UserDto savedAnyUser = userService.createUser(UserMapper.mapUserDto(anyuser));
+
+        ItemDto request = new ItemDto();
+        request.setName("молоток");
+        request.setDescription("красивый");
+        request.setAvailable(true);
+        ItemDto savedItem = itemService.createItem(savedUser.getId(), request);
+
+        BookingRequestDto bookingRequest = new BookingRequestDto();
+        bookingRequest.setItemId(savedItem.getId());
+        bookingRequest.setStart(LocalDateTime.now());
+        bookingRequest.setEnd(LocalDateTime.now().plusHours(1));
+
+
+        BookingResponseDto savedBooking = bookingService.createBooking(savedAnyUser.getId(), bookingRequest);
+
+        List<BookingResponseDto> dtoList = bookingService.getBookingByIdAndStatus(savedAnyUser.getId(), "FUTURE");
+
+        assertThat(dtoList.size(), equalTo(1));
+
+    }
+
+    @Test
+    void getBookingByIdAndStatusWaitingTest() {
+        User user = new User();
+        user.setName("anotherUser");
+        user.setEmail("another@email.com");
+        UserDto savedUser = userService.createUser(UserMapper.mapUserDto(user));
+
+        User anyuser = new User();
+        user.setName("anotherUser");
+        user.setEmail("another@email.com");
+        UserDto savedAnyUser = userService.createUser(UserMapper.mapUserDto(anyuser));
+
+        ItemDto request = new ItemDto();
+        request.setName("молоток");
+        request.setDescription("красивый");
+        request.setAvailable(true);
+        ItemDto savedItem = itemService.createItem(savedUser.getId(), request);
+
+        BookingRequestDto bookingRequest = new BookingRequestDto();
+        bookingRequest.setItemId(savedItem.getId());
+        bookingRequest.setStart(LocalDateTime.now());
+        bookingRequest.setEnd(LocalDateTime.now().plusHours(1));
+
+
+        BookingResponseDto savedBooking = bookingService.createBooking(savedAnyUser.getId(), bookingRequest);
+
+        List<BookingResponseDto> dtoList = bookingService.getBookingByIdAndStatus(savedAnyUser.getId(), "WAITING");
+
+        assertThat(dtoList.size(), equalTo(1));
+
+    }
+
+    @Test
+    void getBookingByIdAndStatusRejectedTest() {
+        User user = new User();
+        user.setName("anotherUser");
+        user.setEmail("another@email.com");
+        UserDto savedUser = userService.createUser(UserMapper.mapUserDto(user));
+
+        User anyuser = new User();
+        user.setName("anotherUser");
+        user.setEmail("another@email.com");
+        UserDto savedAnyUser = userService.createUser(UserMapper.mapUserDto(anyuser));
+
+        ItemDto request = new ItemDto();
+        request.setName("молоток");
+        request.setDescription("красивый");
+        request.setAvailable(true);
+        ItemDto savedItem = itemService.createItem(savedUser.getId(), request);
+
+        BookingRequestDto bookingRequest = new BookingRequestDto();
+        bookingRequest.setItemId(savedItem.getId());
+        bookingRequest.setStart(LocalDateTime.now());
+        bookingRequest.setEnd(LocalDateTime.now().plusHours(1));
+
+
+        BookingResponseDto savedBooking = bookingService.createBooking(savedAnyUser.getId(), bookingRequest);
+
+        List<BookingResponseDto> dtoList = bookingService.getBookingByIdAndStatus(savedAnyUser.getId(), "REJECTED");
+
+        assertThat(dtoList.size(), equalTo(0));
+    }
+
+    @Test
+    void getBookingByOwnerAndStatusAll() {
+        User user = new User();
+        user.setName("anotherUser");
+        user.setEmail("another@email.com");
+        UserDto savedUser = userService.createUser(UserMapper.mapUserDto(user));
+
+        User anyuser = new User();
+        user.setName("anotherUser");
+        user.setEmail("another@email.com");
+        UserDto savedAnyUser = userService.createUser(UserMapper.mapUserDto(anyuser));
+
+        ItemDto request = new ItemDto();
+        request.setName("молоток");
+        request.setDescription("красивый");
+        request.setAvailable(true);
+        ItemDto savedItem = itemService.createItem(savedUser.getId(), request);
+
+        BookingRequestDto bookingRequest = new BookingRequestDto();
+        bookingRequest.setItemId(savedItem.getId());
+        bookingRequest.setStart(LocalDateTime.now());
+        bookingRequest.setEnd(LocalDateTime.now().plusHours(1));
+
+
+        BookingResponseDto savedBooking = bookingService.createBooking(savedAnyUser.getId(), bookingRequest);
+
+        List<BookingResponseDto> dtoList = bookingService.getBookingByOwnerAndStatus(savedUser.getId(), "ALL");
+
+        assertThat(dtoList.size(), equalTo(1));
+    }
+
+    @Test
+    void getBookingByOwnerAndStatusCurrent() {
+        User user = new User();
+        user.setName("anotherUser");
+        user.setEmail("another@email.com");
+        UserDto savedUser = userService.createUser(UserMapper.mapUserDto(user));
+
+        User anyuser = new User();
+        user.setName("anotherUser");
+        user.setEmail("another@email.com");
+        UserDto savedAnyUser = userService.createUser(UserMapper.mapUserDto(anyuser));
+
+        ItemDto request = new ItemDto();
+        request.setName("молоток");
+        request.setDescription("красивый");
+        request.setAvailable(true);
+        ItemDto savedItem = itemService.createItem(savedUser.getId(), request);
+
+        BookingRequestDto bookingRequest = new BookingRequestDto();
+        bookingRequest.setItemId(savedItem.getId());
+        bookingRequest.setStart(LocalDateTime.now());
+        bookingRequest.setEnd(LocalDateTime.now().plusHours(1));
+
+
+        BookingResponseDto savedBooking = bookingService.createBooking(savedAnyUser.getId(), bookingRequest);
+
+        List<BookingResponseDto> dtoList = bookingService.getBookingByOwnerAndStatus(savedUser.getId(), "CURRENT");
+
+        assertThat(dtoList.size(), equalTo(0));
+    }
+
+    @Test
+    void getBookingByOwnerAndStatusPast() {
+        User user = new User();
+        user.setName("anotherUser");
+        user.setEmail("another@email.com");
+        UserDto savedUser = userService.createUser(UserMapper.mapUserDto(user));
+
+        User anyuser = new User();
+        user.setName("anotherUser");
+        user.setEmail("another@email.com");
+        UserDto savedAnyUser = userService.createUser(UserMapper.mapUserDto(anyuser));
+
+        ItemDto request = new ItemDto();
+        request.setName("молоток");
+        request.setDescription("красивый");
+        request.setAvailable(true);
+        ItemDto savedItem = itemService.createItem(savedUser.getId(), request);
+
+        BookingRequestDto bookingRequest = new BookingRequestDto();
+        bookingRequest.setItemId(savedItem.getId());
+        bookingRequest.setStart(LocalDateTime.now());
+        bookingRequest.setEnd(LocalDateTime.now().plusHours(1));
+
+
+        BookingResponseDto savedBooking = bookingService.createBooking(savedAnyUser.getId(), bookingRequest);
+
+        List<BookingResponseDto> dtoList = bookingService.getBookingByOwnerAndStatus(savedUser.getId(), "PAST");
+
+        assertThat(dtoList.size(), equalTo(0));
+    }
+
+    @Test
+    void getBookingByOwnerAndStatusFuture() {
+        User user = new User();
+        user.setName("anotherUser");
+        user.setEmail("another@email.com");
+        UserDto savedUser = userService.createUser(UserMapper.mapUserDto(user));
+
+        User anyuser = new User();
+        user.setName("anotherUser");
+        user.setEmail("another@email.com");
+        UserDto savedAnyUser = userService.createUser(UserMapper.mapUserDto(anyuser));
+
+        ItemDto request = new ItemDto();
+        request.setName("молоток");
+        request.setDescription("красивый");
+        request.setAvailable(true);
+        ItemDto savedItem = itemService.createItem(savedUser.getId(), request);
+
+        BookingRequestDto bookingRequest = new BookingRequestDto();
+        bookingRequest.setItemId(savedItem.getId());
+        bookingRequest.setStart(LocalDateTime.now());
+        bookingRequest.setEnd(LocalDateTime.now().plusHours(1));
+
+
+        BookingResponseDto savedBooking = bookingService.createBooking(savedAnyUser.getId(), bookingRequest);
+
+        List<BookingResponseDto> dtoList = bookingService.getBookingByOwnerAndStatus(savedUser.getId(), "FUTURE");
+
+        assertThat(dtoList.size(), equalTo(1));
+    }
+
+    @Test
+    void getBookingByOwnerAndStatusWaiting() {
+        User user = new User();
+        user.setName("anotherUser");
+        user.setEmail("another@email.com");
+        UserDto savedUser = userService.createUser(UserMapper.mapUserDto(user));
+
+        User anyuser = new User();
+        user.setName("anotherUser");
+        user.setEmail("another@email.com");
+        UserDto savedAnyUser = userService.createUser(UserMapper.mapUserDto(anyuser));
+
+        ItemDto request = new ItemDto();
+        request.setName("молоток");
+        request.setDescription("красивый");
+        request.setAvailable(true);
+        ItemDto savedItem = itemService.createItem(savedUser.getId(), request);
+
+        BookingRequestDto bookingRequest = new BookingRequestDto();
+        bookingRequest.setItemId(savedItem.getId());
+        bookingRequest.setStart(LocalDateTime.now());
+        bookingRequest.setEnd(LocalDateTime.now().plusHours(1));
+
+
+        BookingResponseDto savedBooking = bookingService.createBooking(savedAnyUser.getId(), bookingRequest);
+
+        List<BookingResponseDto> dtoList = bookingService.getBookingByOwnerAndStatus(savedUser.getId(), "WAITING");
+
+        assertThat(dtoList.size(), equalTo(1));
+    }
+
+    @Test
+    void getBookingByOwnerAndStatusRejected() {
+        User user = new User();
+        user.setName("anotherUser");
+        user.setEmail("another@email.com");
+        UserDto savedUser = userService.createUser(UserMapper.mapUserDto(user));
+
+        User anyuser = new User();
+        user.setName("anotherUser");
+        user.setEmail("another@email.com");
+        UserDto savedAnyUser = userService.createUser(UserMapper.mapUserDto(anyuser));
+
+        ItemDto request = new ItemDto();
+        request.setName("молоток");
+        request.setDescription("красивый");
+        request.setAvailable(true);
+        ItemDto savedItem = itemService.createItem(savedUser.getId(), request);
+
+        BookingRequestDto bookingRequest = new BookingRequestDto();
+        bookingRequest.setItemId(savedItem.getId());
+        bookingRequest.setStart(LocalDateTime.now());
+        bookingRequest.setEnd(LocalDateTime.now().plusHours(1));
+
+
+        BookingResponseDto savedBooking = bookingService.createBooking(savedAnyUser.getId(), bookingRequest);
+
+        List<BookingResponseDto> dtoList = bookingService.getBookingByOwnerAndStatus(savedUser.getId(), "REJECTED");
+
+        assertThat(dtoList.size(), equalTo(0));
+    }
 
 }
