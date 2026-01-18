@@ -53,7 +53,7 @@ class ItemMapperTest {
         assertEquals(99L, result.getRequestId());
         assertNotNull(result.getComments());
         assertEquals(1, result.getComments().size());
-        assertEquals("Норм вещь", result.getComments().get(0).getText());
+        assertEquals("Хорошая вещь", result.getComments().get(0).getText());
     }
 
     @Test
