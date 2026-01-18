@@ -142,7 +142,7 @@ public class BookingIntegrationTest {
         bookingRequest.setEnd(LocalDateTime.now().plusHours(1));
 
 
-        BookingResponseDto savedBooking = bookingService.createBooking(savedAnyUser.getId(), bookingRequest);
+        bookingService.createBooking(savedAnyUser.getId(), bookingRequest);
 
         List<BookingResponseDto> dtoList = bookingService.getBookingByIdAndStatus(savedAnyUser.getId(), "ALL");
 
@@ -175,7 +175,7 @@ public class BookingIntegrationTest {
         bookingRequest.setEnd(LocalDateTime.now().plusHours(1));
 
 
-        BookingResponseDto savedBooking = bookingService.createBooking(savedAnyUser.getId(), bookingRequest);
+        bookingService.createBooking(savedAnyUser.getId(), bookingRequest);
 
         List<BookingResponseDto> dtoList = bookingService.getBookingByIdAndStatus(savedAnyUser.getId(), "CURRENT");
 
@@ -208,7 +208,7 @@ public class BookingIntegrationTest {
         bookingRequest.setEnd(LocalDateTime.now().plusHours(1));
 
 
-        BookingResponseDto savedBooking = bookingService.createBooking(savedAnyUser.getId(), bookingRequest);
+        bookingService.createBooking(savedAnyUser.getId(), bookingRequest);
 
         List<BookingResponseDto> dtoList = bookingService.getBookingByIdAndStatus(savedAnyUser.getId(), "PAST");
 
@@ -240,7 +240,7 @@ public class BookingIntegrationTest {
         bookingRequest.setEnd(LocalDateTime.now().plusHours(1));
 
 
-        BookingResponseDto savedBooking = bookingService.createBooking(savedAnyUser.getId(), bookingRequest);
+        bookingService.createBooking(savedAnyUser.getId(), bookingRequest);
 
         List<BookingResponseDto> dtoList = bookingService.getBookingByIdAndStatus(savedAnyUser.getId(), "FUTURE");
 
@@ -272,7 +272,7 @@ public class BookingIntegrationTest {
         bookingRequest.setEnd(LocalDateTime.now().plusHours(1));
 
 
-        BookingResponseDto savedBooking = bookingService.createBooking(savedAnyUser.getId(), bookingRequest);
+        bookingService.createBooking(savedAnyUser.getId(), bookingRequest);
 
         List<BookingResponseDto> dtoList = bookingService.getBookingByIdAndStatus(savedAnyUser.getId(), "WAITING");
 
@@ -304,7 +304,7 @@ public class BookingIntegrationTest {
         bookingRequest.setEnd(LocalDateTime.now().plusHours(1));
 
 
-        BookingResponseDto savedBooking = bookingService.createBooking(savedAnyUser.getId(), bookingRequest);
+        bookingService.createBooking(savedAnyUser.getId(), bookingRequest);
 
         List<BookingResponseDto> dtoList = bookingService.getBookingByIdAndStatus(savedAnyUser.getId(), "REJECTED");
 
@@ -335,7 +335,7 @@ public class BookingIntegrationTest {
         bookingRequest.setEnd(LocalDateTime.now().plusHours(1));
 
 
-        BookingResponseDto savedBooking = bookingService.createBooking(savedAnyUser.getId(), bookingRequest);
+        bookingService.createBooking(savedAnyUser.getId(), bookingRequest);
 
         List<BookingResponseDto> dtoList = bookingService.getBookingByOwnerAndStatus(savedUser.getId(), "ALL");
 
@@ -366,7 +366,7 @@ public class BookingIntegrationTest {
         bookingRequest.setEnd(LocalDateTime.now().plusHours(1));
 
 
-        BookingResponseDto savedBooking = bookingService.createBooking(savedAnyUser.getId(), bookingRequest);
+        bookingService.createBooking(savedAnyUser.getId(), bookingRequest);
 
         List<BookingResponseDto> dtoList = bookingService.getBookingByOwnerAndStatus(savedUser.getId(), "CURRENT");
 
@@ -397,7 +397,7 @@ public class BookingIntegrationTest {
         bookingRequest.setEnd(LocalDateTime.now().plusHours(1));
 
 
-        BookingResponseDto savedBooking = bookingService.createBooking(savedAnyUser.getId(), bookingRequest);
+        bookingService.createBooking(savedAnyUser.getId(), bookingRequest);
 
         List<BookingResponseDto> dtoList = bookingService.getBookingByOwnerAndStatus(savedUser.getId(), "PAST");
 
@@ -428,7 +428,7 @@ public class BookingIntegrationTest {
         bookingRequest.setEnd(LocalDateTime.now().plusHours(1));
 
 
-        BookingResponseDto savedBooking = bookingService.createBooking(savedAnyUser.getId(), bookingRequest);
+        bookingService.createBooking(savedAnyUser.getId(), bookingRequest);
 
         List<BookingResponseDto> dtoList = bookingService.getBookingByOwnerAndStatus(savedUser.getId(), "FUTURE");
 
@@ -459,7 +459,7 @@ public class BookingIntegrationTest {
         bookingRequest.setEnd(LocalDateTime.now().plusHours(1));
 
 
-        BookingResponseDto savedBooking = bookingService.createBooking(savedAnyUser.getId(), bookingRequest);
+        bookingService.createBooking(savedAnyUser.getId(), bookingRequest);
 
         List<BookingResponseDto> dtoList = bookingService.getBookingByOwnerAndStatus(savedUser.getId(), "WAITING");
 
@@ -490,7 +490,7 @@ public class BookingIntegrationTest {
         bookingRequest.setEnd(LocalDateTime.now().plusHours(1));
 
 
-        BookingResponseDto savedBooking = bookingService.createBooking(savedAnyUser.getId(), bookingRequest);
+        bookingService.createBooking(savedAnyUser.getId(), bookingRequest);
 
         List<BookingResponseDto> dtoList = bookingService.getBookingByOwnerAndStatus(savedUser.getId(), "REJECTED");
 
