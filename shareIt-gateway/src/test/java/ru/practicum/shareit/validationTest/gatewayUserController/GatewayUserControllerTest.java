@@ -12,8 +12,12 @@ import ru.practicum.controller.GatewayUserController;
 import ru.practicum.user.dto.UserDto;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(GatewayUserController.class)
@@ -28,7 +32,7 @@ public class GatewayUserControllerTest {
     private ShareItUserClient shareItUserClient;
 
     @Test
-    void createUserTest() throws Exception {
+    void createNotValidUserTest() throws Exception {
         UserDto request = new UserDto();
 
         UserDto response = new UserDto();
@@ -40,5 +44,41 @@ public class GatewayUserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isInternalServerError());
+    }
+    @Test
+    void updateUserTest() throws Exception {
+        UserDto request = new UserDto();
+        request.setName("Дима");
+        UserDto response = new UserDto();
+        response.setName("Дима");
+
+        when(shareItUserClient.updateUser(eq(1L), any(UserDto.class))).thenReturn(response);
+
+        mockMvc.perform(patch("/users/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value(response.getName()));
+    }
+
+    @Test
+    void getUserTest() throws Exception {
+        UserDto response = new UserDto();
+        response.setName("Дима");
+
+        when(shareItUserClient.getUserById(eq(1L))).thenReturn(response);
+
+        mockMvc.perform(get("/users/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value(response.getName()));
+    }
+
+    @Test
+    void deleteUserByIdTest() throws Exception {
+        doNothing().when(shareItUserClient).deleteUserById(eq(1L));
+        mockMvc.perform(delete("/users/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 }
