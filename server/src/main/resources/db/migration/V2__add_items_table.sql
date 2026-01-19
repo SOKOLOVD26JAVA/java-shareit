@@ -4,5 +4,5 @@ CREATE TABLE IF NOT EXISTS items (
  name VARCHAR(100) NOT NULL,
  description VARCHAR(500),
  available boolean NOT NULL,
- CONSTRAINT pk_item PRIMARY KEY(id),
+ CONSTRAINT pk_item PRIMARY KEY(id)
 );

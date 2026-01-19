@@ -5,4 +5,4 @@ requester_id BIGINT NOT NULL,
 created TIMESTAMP NOT NULL,
 CONSTRAINT pk_requests PRIMARY KEY (id),
 CONSTRAINT fk_requests_requester_id FOREIGN KEY (requester_id) REFERENCES users(id)
-)
+);

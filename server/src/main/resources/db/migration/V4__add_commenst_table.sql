@@ -8,4 +8,4 @@ CREATE TABLE IF NOT EXISTS comments (
     CONSTRAINT fk_comments_author_id FOREIGN KEY (author_id) REFERENCES users(id),
     CONSTRAINT fk_comments_item_id FOREIGN KEY (item_id) REFERENCES items(id),
     CONSTRAINT uq_author_item UNIQUE(author_id, item_id)
-)
+);
