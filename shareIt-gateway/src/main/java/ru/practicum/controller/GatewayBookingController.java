@@ -9,6 +9,7 @@ import ru.practicum.booking.dto.BookingResponseDto;
 import ru.practicum.client.ShareItBookingClient;
 
 import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/bookings")

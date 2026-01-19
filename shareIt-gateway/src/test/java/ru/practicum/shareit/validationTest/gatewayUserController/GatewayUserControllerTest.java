@@ -45,6 +45,7 @@ public class GatewayUserControllerTest {
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isInternalServerError());
     }
+
     @Test
     void updateUserTest() throws Exception {
         UserDto request = new UserDto();

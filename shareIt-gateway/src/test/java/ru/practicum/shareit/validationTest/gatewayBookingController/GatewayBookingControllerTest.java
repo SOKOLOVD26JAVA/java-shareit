@@ -56,10 +56,10 @@ public class GatewayBookingControllerTest {
         response.setId(1L);
 
 
-        when(shareItClient.bookingApprove(eq(123L),eq(1L),eq(true))).thenReturn(response);
+        when(shareItClient.bookingApprove(eq(123L), eq(1L), eq(true))).thenReturn(response);
 
         mockMvc.perform(patch("/bookings/1")
-                        .param("approved","true")
+                        .param("approved", "true")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
@@ -70,7 +70,7 @@ public class GatewayBookingControllerTest {
         response.setId(1L);
 
 
-        when(shareItClient.getBooking(eq(123L),eq(1L))).thenReturn(response);
+        when(shareItClient.getBooking(eq(123L), eq(1L))).thenReturn(response);
 
         mockMvc.perform(get("/bookings/1")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -84,9 +84,9 @@ public class GatewayBookingControllerTest {
         responsetList.add(response);
         response.setId(1L);
 
-        when(shareItClient.getBookingByIdAndStatus(eq(123L),eq("state"))).thenReturn(responsetList);
+        when(shareItClient.getBookingByIdAndStatus(eq(123L), eq("state"))).thenReturn(responsetList);
         mockMvc.perform(get("/bookings")
-                        .param("state","state")
+                        .param("state", "state")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
@@ -98,9 +98,9 @@ public class GatewayBookingControllerTest {
         responsetList.add(response);
         response.setId(1L);
 
-        when(shareItClient.getBookingByOwnerAndStatus(eq(123L),eq("state"))).thenReturn(responsetList);
+        when(shareItClient.getBookingByOwnerAndStatus(eq(123L), eq("state"))).thenReturn(responsetList);
         mockMvc.perform(get("/bookings/owner")
-                        .param("state","state")
+                        .param("state", "state")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }

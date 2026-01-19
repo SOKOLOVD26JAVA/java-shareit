@@ -40,7 +40,7 @@ public class GatewayItemRequestControllerTest {
         ItemRequestDto itemRequestDto = new ItemRequestDto();
         itemRequestDto.setDescription("описание");
 
-        when(shareItItemRequestClient.createItemRequest(eq(123L),any(ItemRequestDto.class))).thenReturn(responseDto);
+        when(shareItItemRequestClient.createItemRequest(eq(123L), any(ItemRequestDto.class))).thenReturn(responseDto);
 
         mockMvc.perform(post("/requests")
                         .content(objectMapper.writeValueAsString(itemRequestDto))
@@ -67,7 +67,7 @@ public class GatewayItemRequestControllerTest {
         ItemRequestWithResponseDto response = new ItemRequestWithResponseDto();
         response.setDescription("описание");
 
-        when(shareItItemRequestClient.getItemRequestById(eq(123L),eq(1L))).thenReturn(response);
+        when(shareItItemRequestClient.getItemRequestById(eq(123L), eq(1L))).thenReturn(response);
 
         mockMvc.perform(get("/requests/1")
                         .contentType(MediaType.APPLICATION_JSON))

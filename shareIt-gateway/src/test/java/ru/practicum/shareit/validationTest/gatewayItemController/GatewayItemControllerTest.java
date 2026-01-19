@@ -103,7 +103,7 @@ public class GatewayItemControllerTest {
         CommentRequestDto commentRequestDto = new CommentRequestDto();
         commentRequestDto.setText("Красивый был молоток.");
 
-        when((shareItItemClient.createComment(eq(123L),eq(1L),any(CommentRequestDto.class)))).thenReturn(commentResponseDto);
+        when((shareItItemClient.createComment(eq(123L), eq(1L), any(CommentRequestDto.class)))).thenReturn(commentResponseDto);
 
         mockMvc.perform(post("/items/1/comment")
                         .content(objectMapper.writeValueAsString(commentRequestDto))
