@@ -36,6 +36,7 @@ public class GatewayUserControllerTest {
         UserDto request = new UserDto();
 
         UserDto response = new UserDto();
+
         response.setName("Дима");
 
         when(shareItUserClient.createUser(any(UserDto.class))).thenReturn(response);
