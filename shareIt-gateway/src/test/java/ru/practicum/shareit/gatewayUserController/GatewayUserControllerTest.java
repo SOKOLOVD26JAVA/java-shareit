@@ -1,4 +1,4 @@
-package ru.practicum.shareit.validationTest.gatewayUserController;
+package ru.practicum.shareit.gatewayUserController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -36,7 +36,6 @@ public class GatewayUserControllerTest {
         UserDto request = new UserDto();
 
         UserDto response = new UserDto();
-
         response.setName("Дима");
 
         when(shareItUserClient.createUser(any(UserDto.class))).thenReturn(response);

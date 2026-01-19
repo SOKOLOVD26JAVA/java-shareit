@@ -105,9 +105,9 @@ public class ShareItBookingClient {
 
     private HttpHeaders createHeadersWithUserId(Long userId) {
         HttpHeaders headers = createHeaders();
-        if (userId != null) {
-            headers.set("X-Sharer-User-Id", userId.toString());
-        }
+
+        headers.set("X-Sharer-User-Id", userId.toString());
+
         return headers;
     }
 

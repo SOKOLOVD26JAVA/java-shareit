@@ -24,14 +24,12 @@ public class GatewayItemController {
     @PostMapping()
     public ItemDto createItem(@RequestHeader(value = Headers.SHARER_USER_ID, required = true) Long userId,
                               @Valid @RequestBody ItemDto itemDto) {
-        System.out.println(itemDto);
         return shareItClient.createItem(userId, itemDto);
     }
 
     @PatchMapping("/{itemId}")
     public ItemDto updateItem(@RequestHeader(value = Headers.SHARER_USER_ID, required = true) Long userId,
                               @PathVariable Long itemId, @RequestBody ItemDto itemDto) {
-        System.out.println("hello");
         return shareItClient.updateItem(userId, itemId, itemDto);
     }
 
