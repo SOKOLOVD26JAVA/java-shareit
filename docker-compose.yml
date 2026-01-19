@@ -31,7 +31,7 @@ db:
     POSTGRES_PASSWORD: 12345
     POSTGRES_DB: share-it
   ports:
-    - "5432:5432"
+    - "6541:5432"
   volumes:
     - postgres_data:/var/lib/postgresql/data
 
