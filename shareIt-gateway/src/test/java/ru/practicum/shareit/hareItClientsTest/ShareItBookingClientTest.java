@@ -52,8 +52,8 @@ public class ShareItBookingClientTest {
         BookingResponseDto response = new BookingResponseDto();
         response.setStart(LocalDateTime.now());
 
-        when(restTemplate.exchange(eq(serverUrl + Paths.BOOKING + "/" + "1" + "?approved=" + true), eq(HttpMethod.PATCH)
-                , any(HttpEntity.class), eq(BookingResponseDto.class), any(Boolean.class)))
+        when(restTemplate.exchange(eq(serverUrl + Paths.BOOKING + "/" + "1" + "?approved=" + true), eq(HttpMethod.PATCH),
+                any(HttpEntity.class), eq(BookingResponseDto.class), any(Boolean.class)))
                 .thenReturn(new ResponseEntity<>(response, HttpStatus.OK));
 
         client.bookingApprove(1L, 1L, true);
@@ -64,8 +64,8 @@ public class ShareItBookingClientTest {
         BookingResponseDto response = new BookingResponseDto();
         response.setStart(LocalDateTime.now());
 
-        when(restTemplate.exchange(eq(serverUrl + Paths.BOOKING + "/" + "1"), eq(HttpMethod.GET)
-                , any(HttpEntity.class), eq(BookingResponseDto.class)))
+        when(restTemplate.exchange(eq(serverUrl + Paths.BOOKING + "/" + "1"), eq(HttpMethod.GET),
+                any(HttpEntity.class), eq(BookingResponseDto.class)))
                 .thenReturn(new ResponseEntity<>(response, HttpStatus.OK));
 
         client.getBooking(1L, 1L);
@@ -74,16 +74,16 @@ public class ShareItBookingClientTest {
     @Test
     void getBookingByIdAndStatusTest() {
 
-        when(restTemplate.exchange(eq(serverUrl + Paths.BOOKING + "?state=ALL"), eq(HttpMethod.GET)
-                , any(HttpEntity.class), ArgumentMatchers.<ParameterizedTypeReference<List<ItemResponseDto>>>any(), any(String.class)))
+        when(restTemplate.exchange(eq(serverUrl + Paths.BOOKING + "?state=ALL"), eq(HttpMethod.GET),
+                any(HttpEntity.class), ArgumentMatchers.<ParameterizedTypeReference<List<ItemResponseDto>>>any(), any(String.class)))
                 .thenReturn(new ResponseEntity<>(HttpStatus.OK));
         client.getBookingByIdAndStatus(1L, "ALL");
     }
 
     @Test
     void getBookingByOwnerAndStatusTest() {
-        when(restTemplate.exchange(eq(serverUrl + Paths.BOOKING + "/owner?state=ALL"), eq(HttpMethod.GET)
-                , any(HttpEntity.class), ArgumentMatchers.<ParameterizedTypeReference<List<ItemResponseDto>>>any(), any(String.class)))
+        when(restTemplate.exchange(eq(serverUrl + Paths.BOOKING + "/owner?state=ALL"), eq(HttpMethod.GET),
+                any(HttpEntity.class), ArgumentMatchers.<ParameterizedTypeReference<List<ItemResponseDto>>>any(), any(String.class)))
                 .thenReturn(new ResponseEntity<>(HttpStatus.OK));
 
         client.getBookingByOwnerAndStatus(1L, "ALL");

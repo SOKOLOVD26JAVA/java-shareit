@@ -32,8 +32,8 @@ public class ShareItUserClientTest {
         UserDto user = new UserDto();
         user.setName("тест");
 
-        when(restTemplate.exchange(eq(serverUrl + Paths.USER)
-                , eq(HttpMethod.POST), any(HttpEntity.class), eq(UserDto.class)))
+        when(restTemplate.exchange(eq(serverUrl + Paths.USER),
+                eq(HttpMethod.POST), any(HttpEntity.class), eq(UserDto.class)))
                 .thenReturn(new ResponseEntity<>(user, HttpStatus.OK));
         client.createUser(user);
     }
@@ -43,8 +43,8 @@ public class ShareItUserClientTest {
         UserDto user = new UserDto();
         user.setName("тест");
 
-        when(restTemplate.exchange(eq(serverUrl + Paths.USER + "/1")
-                , eq(HttpMethod.PATCH), any(HttpEntity.class), eq(UserDto.class), any(Long.class)))
+        when(restTemplate.exchange(eq(serverUrl + Paths.USER + "/1"),
+                eq(HttpMethod.PATCH), any(HttpEntity.class), eq(UserDto.class), any(Long.class)))
                 .thenReturn(new ResponseEntity<>(user, HttpStatus.OK));
         client.updateUser(1L, user);
     }

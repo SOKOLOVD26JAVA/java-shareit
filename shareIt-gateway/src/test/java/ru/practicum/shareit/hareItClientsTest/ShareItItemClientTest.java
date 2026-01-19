@@ -70,8 +70,8 @@ public class ShareItItemClientTest {
     @Test
     void getItemListByUserIdTest() {
 
-        when(restTemplate.exchange(eq(serverUrl + Paths.ITEM), eq(HttpMethod.GET)
-                , any(HttpEntity.class), ArgumentMatchers.<ParameterizedTypeReference<List<ItemResponseDto>>>any()))
+        when(restTemplate.exchange(eq(serverUrl + Paths.ITEM), eq(HttpMethod.GET),
+                any(HttpEntity.class), ArgumentMatchers.<ParameterizedTypeReference<List<ItemResponseDto>>>any()))
                 .thenReturn(new ResponseEntity<>(HttpStatus.OK));
 
         client.getItemListByUserId(1L);
@@ -79,8 +79,8 @@ public class ShareItItemClientTest {
 
     @Test
     void searchItemTest() {
-        when(restTemplate.exchange(eq(serverUrl + Paths.ITEM + "?text=" + "text"), eq(HttpMethod.GET)
-                , any(HttpEntity.class), ArgumentMatchers.<ParameterizedTypeReference<List<ItemResponseDto>>>any(), any(String.class)))
+        when(restTemplate.exchange(eq(serverUrl + Paths.ITEM + "?text=" + "text"), eq(HttpMethod.GET),
+                any(HttpEntity.class), ArgumentMatchers.<ParameterizedTypeReference<List<ItemResponseDto>>>any(), any(String.class)))
                 .thenReturn(new ResponseEntity<>(HttpStatus.OK));
 
         client.searchItem(1L, "text");

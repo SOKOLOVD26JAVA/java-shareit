@@ -50,8 +50,8 @@ public class ShareItItemRequestClientTest {
 
     @Test
     void getUserItemRequestsTest() {
-        when(restTemplate.exchange(eq(serverUrl + Paths.REQUEST), eq(HttpMethod.GET)
-                , any(HttpEntity.class), ArgumentMatchers.<ParameterizedTypeReference<List<ItemResponseDto>>>any()))
+        when(restTemplate.exchange(eq(serverUrl + Paths.REQUEST), eq(HttpMethod.GET),
+                any(HttpEntity.class), ArgumentMatchers.<ParameterizedTypeReference<List<ItemResponseDto>>>any()))
                 .thenReturn(new ResponseEntity<>(HttpStatus.OK));
 
         client.getUserItemRequests(1L);
@@ -60,8 +60,8 @@ public class ShareItItemRequestClientTest {
     @Test
     void getItemRequestById() {
         ItemRequestWithResponseDto response = new ItemRequestWithResponseDto();
-        when(restTemplate.exchange(eq(serverUrl + Paths.REQUEST + "/1")
-                , eq(HttpMethod.GET), any(HttpEntity.class), eq(ItemRequestWithResponseDto.class)))
+        when(restTemplate.exchange(eq(serverUrl + Paths.REQUEST + "/1"),
+                eq(HttpMethod.GET), any(HttpEntity.class), eq(ItemRequestWithResponseDto.class)))
                 .thenReturn(new ResponseEntity<>(response, HttpStatus.OK));
 
         client.getItemRequestById(1L, 1L);
@@ -69,8 +69,8 @@ public class ShareItItemRequestClientTest {
 
     @Test
     void getAllItemRequestsTest() {
-        when(restTemplate.exchange(eq(serverUrl + Paths.REQUEST + "/all"), eq(HttpMethod.GET)
-                , any(HttpEntity.class), ArgumentMatchers.<ParameterizedTypeReference<List<ItemResponseDto>>>any()))
+        when(restTemplate.exchange(eq(serverUrl + Paths.REQUEST + "/all"), eq(HttpMethod.GET),
+                any(HttpEntity.class), ArgumentMatchers.<ParameterizedTypeReference<List<ItemResponseDto>>>any()))
                 .thenReturn(new ResponseEntity<>(HttpStatus.OK));
 
         client.getAllItemRequests(1L);
