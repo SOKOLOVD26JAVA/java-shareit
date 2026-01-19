@@ -23,7 +23,7 @@ services:
       - SPRING_DATASOURCE_USERNAME=shareit
       - SPRING_DATASOURCE_PASSWORD=shareit
 
-db:
+  db:
   image: postgres:15-alpine
   container_name: share-it
   environment:
@@ -32,6 +32,11 @@ db:
     POSTGRES_DB: share-it
   ports:
     - "6541:5432"
+  healthcheck:
+    test: pg_isready -q -d $$POSTGRES_DB -U $$POSTGRES_USER
+    timeout: 5s
+    interval: 5s
+    retries: 10
   volumes:
     - postgres_data:/var/lib/postgresql/data
 
