@@ -33,6 +33,7 @@ public class ShareItBookingClient {
         try {
             ResponseEntity<BookingResponseDto> response = restTemplate
                     .exchange(url, HttpMethod.POST, request, BookingResponseDto.class);
+
             return response.getBody();
         } catch (HttpStatusCodeException e) {
             throw new GatewayException((HttpStatus) e.getStatusCode(), e.getMessage());
