@@ -16,11 +16,6 @@ import java.util.List;
 public class GatewayBookingController {
     private final ShareItBookingClient shareItClient;
 
-    @GetMapping
-    public String work() {
-        return "Ok";
-    }
-
     @PostMapping
     public BookingResponseDto createBooking(@RequestHeader(value = Headers.SHARER_USER_ID, required = true) Long userId,
                                             @Valid @RequestBody BookingRequestDto bookingDto) {
